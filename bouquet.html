@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Dumpling Bouquet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(ellipse at center, #1a237e 0%, #0d1b52 50%, #020515 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Starfield background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            background: rgba(13, 27, 82, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            box-shadow: 0 25px 70px rgba(100, 181, 246, 0.5), 0 0 100px rgba(66, 165, 245, 0.3);
+            border: 2px solid rgba(144, 202, 249, 0.4);
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #64b5f6, #90caf9, #e1bee7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 42px;
+            margin-bottom: 10px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(100, 181, 246, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            color: #90caf9;
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 35px;
+            font-style: italic;
+        }
+
+        .bouquet-container {
+            width: 100%;
+            max-width: 350px;
+            height: 450px;
+            margin: 0 auto 40px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .reveal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(26, 35, 126, 0.95) 0%, rgba(13, 27, 82, 0.98) 100%);
+            z-index: 10;
+            transition: transform 0.5s ease-out;
+        }
+
+        .reveal-overlay::before {
+            content: '✨';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            opacity: 0.6;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-20px); }
+        }
+
+        .flowers-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .flowers {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 12px;
+            padding: 0 20px;
+        }
+
+        .flower {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(80px) scale(0.5);
+            transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .flower.center {
+            width: 85px;
+            height: 200px;
+        }
+
+        .flower.side {
+            width: 75px;
+            height: 175px;
+        }
+
+        .flower.outer {
+            width: 65px;
+            height: 150px;
+        }
+
+        /* Cosmic Dumpling Flowers */
+        .dumpling-flower {
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(ellipse at center, #e3f2fd 0%, #90caf9 50%, #42a5f5 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            box-shadow: 0 0 30px rgba(66, 165, 245, 0.8), 0 5px 20px rgba(33, 150, 243, 0.6);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 30px rgba(66, 165, 245, 0.8), 0 5px 20px rgba(33, 150, 243, 0.6); }
+            50% { box-shadow: 0 0 50px rgba(100, 181, 246, 1), 0 5px 30px rgba(66, 165, 245, 0.8); }
+        }
+
+        .dumpling-flower::before {
+            content: '🥟';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+        }
+
+        .dumpling-flower::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent);
+            border-radius: inherit;
+            top: 0;
+            left: 0;
+        }
+
+        /* Star Petal Flowers */
+        .star-flower {
+            width: 50px;
+            height: 50px;
+            position: relative;
+        }
+
+        .star-petal {
+            position: absolute;
+            width: 18px;
+            height: 25px;
+            background: linear-gradient(to bottom, #e1bee7, #ce93d8);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(206, 147, 216, 0.8);
+            animation: petalGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes petalGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(206, 147, 216, 0.6); }
+            50% { box-shadow: 0 0 25px rgba(225, 190, 231, 1); }
+        }
+
+        .star-petal:nth-child(1) { top: -10px; left: 16px; }
+        .star-petal:nth-child(2) { top: 3px; right: -7px; transform: rotate(45deg); }
+        .star-petal:nth-child(3) { bottom: 3px; right: -7px; transform: rotate(90deg); }
+        .star-petal:nth-child(4) { bottom: -10px; left: 16px; }
+        .star-petal:nth-child(5) { bottom: 3px; left: -7px; transform: rotate(-90deg); }
+        .star-petal:nth-child(6) { top: 3px; left: -7px; transform: rotate(-45deg); }
+
+        .star-center {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: radial-gradient(circle, #ffeb3b, #ffd54f);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            box-shadow: 0 0 20px rgba(255, 235, 59, 0.9);
+        }
+
+        .star-center::before {
+            content: '⭐';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+        }
+
+        .stem {
+            width: 5px;
+            height: 0;
+            background: linear-gradient(to bottom, #66bb6a 0%, #43a047 50%, rgba(67, 160, 71, 0.7) 100%);
+            border-radius: 3px;
+            position: relative;
+            transition: height 1s ease;
+            box-shadow: 0 0 10px rgba(102, 187, 106, 0.5);
+        }
+
+        .flower.center .stem { height: 140px; }
+        .flower.side .stem { height: 115px; }
+        .flower.outer .stem { height: 95px; }
+
+        .leaf {
+            position: absolute;
+            width: 28px;
+            height: 16px;
+            background: linear-gradient(135deg, #81c784, #66bb6a);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.7s ease;
+            box-shadow: 0 0 10px rgba(102, 187, 106, 0.4);
+        }
+
+        .leaf-left {
+            left: -24px;
+            top: 40%;
+            transform: rotate(-45deg);
+        }
+
+        .leaf-right {
+            right: -24px;
+            top: 55%;
+            transform: rotate(45deg);
+        }
+
+        /* Cosmic Wrapper */
+        .wrapper {
+            width: 280px;
+            height: 130px;
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 50%, #01579b 100%);
+            border-radius: 15px 15px 60% 60% / 15px 15px 50% 50%;
+            position: relative;
+            margin-top: -25px;
+            box-shadow: 0 0 40px rgba(66, 165, 245, 0.6), 0 15px 40px rgba(13, 71, 161, 0.5);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .wrapper::before {
+            content: '✨🌙✨';
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 35px;
+            left: 0;
+            font-size: 18px;
+            opacity: 0.6;
+        }
+
+        .wrapper::after {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 25px;
+            background: linear-gradient(90deg, transparent 0%, rgba(144, 202, 249, 0.3) 50%, transparent 100%);
+            top: 30px;
+            left: 5%;
+            border-radius: 50%;
+        }
+
+        /* Galaxy Ribbon */
+        .ribbon {
+            position: absolute;
+            width: 110%;
+            height: 38px;
+            top: 45%;
+            left: -5%;
+            background: linear-gradient(135deg, #ba68c8, #ab47bc, #9c27b0);
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(156, 39, 176, 0.8), 0 5px 15px rgba(171, 71, 188, 0.6);
+            transform: scaleX(0);
+            transition: transform 0.8s ease;
+        }
+
+        .ribbon::before,
+        .ribbon::after {
+            content: '';
+            position: absolute;
+            width: 48px;
+            height: 60px;
+            background: linear-gradient(135deg, #ba68c8, #ab47bc);
+            bottom: -55px;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            box-shadow: 0 0 20px rgba(156, 39, 176, 0.6);
+        }
+
+        .ribbon::before { left: -42px; }
+        .ribbon::after { right: -42px; }
+
+        /* Heart emoji on ribbon */
+        .ribbon-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+            opacity: 0;
+            transition: opacity 0.5s ease 0.8s;
+        }
+
+        /* Slider */
+        .slider-container {
+            width: 100%;
+            margin: 35px 0 25px 0;
+            padding: 20px;
+        }
+
+        .slider-label {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #90caf9, #ce93d8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 15px;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            margin-bottom: 18px;
+            font-style: italic;
+        }
+
+        .slider {
+            width: 100%;
+            height: 10px;
+            border-radius: 10px;
+            background: linear-gradient(to right, rgba(26, 35, 126, 0.8), rgba(66, 165, 245, 0.8), rgba(156, 39, 176, 0.8));
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: 0 0 20px rgba(66, 165, 245, 0.4);
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #64b5f6, #42a5f5, #1976d2);
+            cursor: grab;
+            box-shadow: 0 0 30px rgba(100, 181, 246, 1), 0 5px 20px rgba(25, 118, 210, 0.7);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(144, 202, 249, 0.6);
+        }
+
+        .slider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.2);
+            box-shadow: 0 0 50px rgba(144, 202, 249, 1), 0 8px 30px rgba(66, 165, 245, 1);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #64b5f6, #42a5f5, #1976d2);
+            cursor: grab;
+            border: 2px solid rgba(144, 202, 249, 0.6);
+            box-shadow: 0 0 30px rgba(100, 181, 246, 1), 0 5px 20px rgba(25, 118, 210, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .slider::-moz-range-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.2);
+            box-shadow: 0 0 50px rgba(144, 202, 249, 1), 0 8px 30px rgba(66, 165, 245, 1);
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            transition: all 0.8s ease;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+        }
+
+        .hint {
+            font-family: 'Montserrat', sans-serif;
+            color: #90caf9;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 1.5px;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .message-box {
+            background: rgba(13, 27, 82, 0.6);
+            border: 1px solid rgba(144, 202, 249, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+
+        .message-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-text {
+            font-family: 'Cormorant Garamond', serif;
+            color: #e1bee7;
+            font-size: 18px;
+            line-height: 1.6;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <h1>Cosmic Dumdum Bouquet</h1>
+        <p class="subtitle">✨ from across the galaxy, to you ✨</p>
+
+        <div class="bouquet-container">
+            <div class="sparkles" id="sparkles"></div>
+            <div class="reveal-overlay" id="revealOverlay"></div>
+            
+            <div class="flowers-wrapper">
+                <div class="flowers" id="flowers">
+                    <div class="flower outer" style="transition-delay: 0.1s;">
+                        <div class="star-flower">
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-center"></div>
+                        </div>
+                        <div class="stem">
+                            <div class="leaf leaf-left"></div>
+                        </div>
+                    </div>
+
+                    <div class="flower side" style="transition-delay: 0.2s;">
+                        <div class="dumpling-flower"></div>
+                        <div class="stem">
+                            <div class="leaf leaf-left"></div>
+                            <div class="leaf leaf-right"></div>
+                        </div>
+                    </div>
+
+                    <div class="flower center" style="transition-delay: 0.3s;">
+                        <div class="dumpling-flower" style="width: 65px; height: 65px;">
+                            <span style="font-size: 32px;">🥟</span>
+                        </div>
+                        <div class="stem">
+                            <div class="leaf leaf-left"></div>
+                            <div class="leaf leaf-right"></div>
+                        </div>
+                    </div>
+
+                    <div class="flower side" style="transition-delay: 0.4s;">
+                        <div class="dumpling-flower"></div>
+                        <div class="stem">
+                            <div class="leaf leaf-left"></div>
+                            <div class="leaf leaf-right"></div>
+                        </div>
+                    </div>
+
+                    <div class="flower outer" style="transition-delay: 0.5s;">
+                        <div class="star-flower">
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-petal"></div>
+                            <div class="star-center"></div>
+                        </div>
+                        <div class="stem">
+                            <div class="leaf leaf-right"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wrapper" id="wrapper">
+                    <div class="ribbon" id="ribbon">
+                        <div class="ribbon-heart">💙</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-label">drag to reveal your cosmic gift</div>
+            <input type="range" min="0" max="100" value="0" class="slider" id="transformSlider">
+        </div>
+
+        <div class="hint">🌙 you're my favorite dumdum in the universe 🥟</div>
+
+        <div class="message-box" id="messageBox">
+            <div class="message-text" id="messageText"></div>
+        </div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('transformSlider');
+        const revealOverlay = document.getElementById('revealOverlay');
+        const flowers = document.querySelectorAll('.flower');
+        const wrapper = document.getElementById('wrapper');
+        const ribbon = document.getElementById('ribbon');
+        const ribbonHeart = document.querySelector('.ribbon-heart');
+        const sparklesContainer = document.getElementById('sparkles');
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
+        const starsContainer = document.getElementById('stars');
+
+        // Romantic cosmic messages
+        const messages = [
+            "Out of all the stars, you're the one who keeps stealing my telescope time! 🌌💙",
+            "You're my favorite kind of gravity — the one I never wanna escape from! ✨",
+            "You’re not just my dumpling… you’re the whole cosmic buffet! 🥟💫",
+            "The stars called — they’re jealous of how you outshine them nightly! 🌟",
+            "If love had a spaceship, I’d still crash-land right into you! 🌙💙"
+        ];
+
+        // Create starfield
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.width = Math.random() * 2 + 1 + 'px';
+            star.style.height = star.style.width;
+            starsContainer.appendChild(star);
+        }
+
+        // Create sparkles
+        const sparkleSymbols = ['✨', '💙', '🌟', '💫', '⭐', '🥟', '🌙', '💙'];
+        for (let i = 0; i < 20; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.textContent = sparkleSymbols[Math.floor(Math.random() * sparkleSymbols.length)];
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparklesContainer.appendChild(sparkle);
+        }
+
+        const allSparkles = document.querySelectorAll('.sparkle');
+
+        slider.addEventListener('input', function() {
+            const value = this.value;
+            const percentage = value / 100;
+
+            // Reveal overlay slides up with cosmic effect
+            revealOverlay.style.transform = `translateY(-${percentage * 100}%)`;
+            revealOverlay.style.opacity = 1 - percentage;
+
+            // Show flowers progressively with stagger
+            if (percentage > 0.05) {
+                flowers.forEach((flower, index) => {
+                    if (percentage > (index * 0.12)) {
+                        flower.style.opacity = '1';
+                        flower.style.transform = 'translateY(0) scale(1)';
+                        
+                        // Show leaves
+                        const leaves = flower.querySelectorAll('.leaf');
+                        leaves.forEach(leaf => {
+                            leaf.style.opacity = '1';
+                        });
+                    }
+                });
+            }
+
+            // Show wrapper
+            if (percentage > 0.45) {
+                wrapper.style.transform = `scaleY(${Math.min((percentage - 0.45) / 0.25, 1)})`;
+            }
+
+            // Show ribbon
+            if (percentage > 0.65) {
+                ribbon.style.transform = `scaleX(${Math.min((percentage - 0.65) / 0.2, 1)})`;
+            }
+
+            // Show heart on ribbon
+            if (percentage > 0.85) {
+                ribbonHeart.style.opacity = '1';
+            }
+
+            // Animate sparkles in waves
+            allSparkles.forEach((sparkle, index) => {
+                const sparkleThreshold = index / allSparkles.length;
+                if (percentage > sparkleThreshold) {
+                    sparkle.style.opacity = '1';
+                    const wobble = Math.sin((percentage - sparkleThreshold) * Math.PI * 4) * 10;
+                    sparkle.style.transform = `
+                        scale(${1 + Math.sin(percentage * Math.PI * 3) * 0.4}) 
+                        rotate(${percentage * 720}deg)
+                        translateY(${wobble}px)
+                    `;
+                } else {
+                    sparkle.style.opacity = '0';
+                }
+            });
+
+            // Show romantic message when fully revealed
+            if (percentage > 0.95) {
+                messageBox.classList.add('visible');
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                messageText.textContent = randomMessage;
+            } else {
+                messageBox.classList.remove('visible');
+            }
+
+            // Slider pulse effect
+            if (value % 5 === 0 && value > 0) {
+                this.style.filter = 'brightness(1.3)';
+                setTimeout(() => {
+                    this.style.filter = 'brightness(1)';
+                }, 100);
+            }
+        });
+
+        // Touch feedback
+        slider.addEventListener('touchstart', function() {
+            this.style.transition = 'all 0.1s ease';
+        });
+
+        slider.addEventListener('touchend', function() {
+            this.style.transition = 'all 0.3s ease';
+        });
+    </script>
+</body>
+</html>
